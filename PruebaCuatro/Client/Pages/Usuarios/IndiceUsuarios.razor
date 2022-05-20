@@ -1,0 +1,42 @@
+﻿@page "/usuarios"
+@using PruebaCuatro.Shared.DTOs
+@inject HttpClient http
+
+<h3>ListadoUsuarios</h3>
+
+ <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Usuario</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var usuario in Usuarios)
+                {
+                    <tr>
+                        <td>
+                            <a href="/usuarios/editar/@usuario.UserId" class="btn btn-success">Editar</a>
+                        </td>
+                        <td>
+                            @usuario.Email
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    
+
+@code {
+    List<UsuarioDTO> Usuarios=new List<UsuarioDTO>();
+
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Usuarios=await http.GetFromJsonAsync<List<UsuarioDTO>>("api/usuarios");
+    }
+
+   
+}
